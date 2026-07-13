@@ -112,25 +112,25 @@ export default function Footer() {
               <ul className="space-y-3 text-sm">
 
                 <li>
-                  <Link href="#" className="transition hover:text-primary">
+                  <Link href="/products/manteau-coat" className="transition hover:text-primary">
                     مانتو و کت
                   </Link>
                 </li>
 
                 <li>
-                  <Link href="#" className="transition hover:text-primary">
+                  <Link href="/products/suit" className="transition hover:text-primary">
                     کت  شلوار
                   </Link>
                 </li>
 
                 <li>
-                  <Link href="#" className="transition hover:text-primary">
+                  <Link href="/products/coat" className="transition hover:text-primary">
                     پالتو و کاپشن
                   </Link>
                 </li>
 
                 <li>
-                  <Link href="#" className="transition hover:text-primary">
+                  <Link href="/products/office-uniform" className="transition hover:text-primary">
                     فرم اداری
                   </Link>
                 </li>
@@ -151,17 +151,17 @@ export default function Footer() {
 
                 <li className="flex items-center gap-3 justify-center">
                   <Phone size={18} className="text-primary" />
-                  <span>0912 123 4567</span>
+                  <span>  4567 123 0912 </span>
                 </li>
 
                 <li className="flex items-center gap-3 justify-center">
                   <Mail size={18} className="text-primary" />
-                  <span>info@baran.ir</span>
+                  <span>baranshop@gmail.com</span>
                 </li>
 
                 <li className="flex items-center gap-3 justify-center">
                   <MapPin size={18} className="text-primary" />
-                  <span>مشهد، ایران</span>
+                  <span>ایران , مشهد</span>
                 </li>
 
               </ul>
@@ -210,7 +210,7 @@ export default function Footer() {
             </p>
 
             <p>
-              طراحی و توسعه  Baran
+              طراحی و توسعه باران
             </p>
 
           </div>

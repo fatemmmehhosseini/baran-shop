@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getProducts } from "@/services/product.service"
 import ProductCarousel from "./ProductCarousel";
-import FadeIn from "@/components/ui/FadeIn";
+import FadeIn from "@/components/ui/home/FadeIn";
 
 export default async function BestSellerSection() {
   const products = await getProducts({
@@ -25,7 +25,7 @@ export default async function BestSellerSection() {
           </div>
 
           <Link
-            href="/products?bestSeller=true"
+            href="/products?sort=bestSeller"
             className="hidden shrink-0 text-sm font-medium text-primary hover:underline sm:block"
           >
             مشاهده همه

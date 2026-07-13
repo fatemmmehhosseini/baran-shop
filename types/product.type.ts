@@ -37,5 +37,11 @@ export interface CreateProductDto {
 export interface GetProductsOptions {
   bestSeller?: boolean;
   categoryId?: number;
+  categorySlug?: string;
+  minPrice?: number;
+  maxPrice?: number;
+
   limit?: number;
+
+  sort?: "newest" | "bestSeller" | "oldest" | "price-asc" | "price-desc" | "discount";
 }

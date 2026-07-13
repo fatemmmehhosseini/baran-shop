@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getProducts } from "@/services/product.service";
-import FadeIn from "@/components/ui/FadeIn";
+import FadeIn from "@/components/ui/home/FadeIn";
 import NewArrivalCard from "./NewArrivalCard";
 
 export default async function NewArrivalsSection() {

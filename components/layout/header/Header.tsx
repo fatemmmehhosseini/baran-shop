@@ -10,10 +10,10 @@ import SearchOverlay from "./SearchOverlay";
 
 const NAV_LINKS = [
   { label: "صفحه اصلی", href: "/" },
-  { label: "مانتو و کت", href: "/products?category=manteau-coat" },
-  { label: "کت شلوار", href: "/products?category=suit" },
-  { label: "پالتو و کاپشن", href: "/products?category=coat" },
-  { label: "فرم اداری", href: "/products?category=office-uniform" },
+  { label: "مانتو و کت", href: "/products/manteau-coat" },
+  { label: "کت شلوار", href: "/products/suit" },
+  { label: "پالتو و کاپشن", href: "/products/coat" },
+  { label: "فرم اداری", href: "/products/office-uniform" },
   { label: "درباره ما", href: "/about" },
   { label: "تماس با ما", href: "/contact" },
 ];

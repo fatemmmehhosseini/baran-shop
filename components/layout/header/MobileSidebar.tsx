@@ -12,10 +12,10 @@ type Props = {
 
 const links = [
   { title: "صفحه اصلی", href: "/" },
-  { title: "مانتو و کت", href: "/products?category=manteau-coat" },
-  { title: "کت شلوار", href: "/products?category=suit" },
-  { title: "پالتو و کاپشن", href: "/products?category=coat" },
-  { title: "فرم اداری", href: "/products?category=office-uniform" },
+  { title: "مانتو و کت", href: "/products/manteau-coat" },
+  { title: "کت شلوار", href: "/products/suit" },
+  { title: "پالتو و کاپشن", href: "/products/coat" },
+  { title: "فرم اداری", href: "/products/office-uniform" },
   { title: "درباره ما", href: "/about" },
   { title: "تماس با ما", href: "/contact" },
   
@@ -82,9 +82,10 @@ export default function MobileSidebar({
 
             {links.map((item) => {
 
-              const active =
-                pathname === item.href ||
-                pathname.startsWith(item.href.split("?")[0]);
+              const active = 
+                item.href === "/"
+                ? pathname==="/"
+                : pathname.startsWith(item.href.split("?")[0]);
 
               return (
                 <li key={item.href}>

@@ -3,11 +3,12 @@ import { CreateProductDto, GetProductsOptions, Product } from "@/types/product.t
 import { ResultSetHeader } from "mysql2";
 
 export async function getProducts(options?: GetProductsOptions) {
-   console.log("getProducts called", options);
+   
   let query = `
     SELECT
       p.*,
-      c.name AS category_name
+      c.name AS category_name,
+      c.slug AS category_slug
     FROM products p
     INNER JOIN categories c
       ON p.category_id = c.id
@@ -16,21 +17,55 @@ export async function getProducts(options?: GetProductsOptions) {
 
   const values: (string | number)[] = [];
 
+  const finalPriceExpr = `(p.price - (p.price * p.discount / 100))`;
+
   if (options?.bestSeller) {
     query += ` AND p.is_best_seller = 1`;
   }
 
-  if (options?.categoryId) {
-    query += ` AND p.category_id = ?`;
-    values.push(options.categoryId);
+
+  if (options?.categorySlug) {
+  query += ` AND c.slug = ?`;
+  values.push(options.categorySlug);
+}
+
+ if (options?.minPrice !== undefined) {
+    query += ` AND ${finalPriceExpr} >= ?`;
+    values.push(options.minPrice);
   }
 
-  query += ` ORDER BY p.created_at DESC`;
+  if (options?.maxPrice !== undefined) {
+    query += ` AND ${finalPriceExpr} <= ?`;
+    values.push(options.maxPrice);
+  }
+
+
+  switch (options?.sort) {
+  case "bestSeller":
+    query += ` ORDER BY p.is_best_seller DESC, p.created_at DESC`;
+    break;
+
+  case "price-asc":
+    query += ` ORDER BY ${finalPriceExpr} ASC`;
+    break;
+
+  case "price-desc":
+    query += ` ORDER BY ${finalPriceExpr} DESC`;
+    break;
+
+    case "discount":
+    query += ` ORDER BY p.discount DESC`;
+    break;
+
+  default:
+    query += ` ORDER BY p.created_at DESC`;
+}
 
   if (options?.limit) {
     query += ` LIMIT ?`;
     values.push(options.limit);
   }
+
 
   const [rows] = await db.query(query, values);
 

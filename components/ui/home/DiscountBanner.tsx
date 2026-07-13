@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Tag, ArrowLeft } from "lucide-react";
-import FadeIn from "@/components/ui/FadeIn";
+import FadeIn from "@/components/ui/home/FadeIn";
 
 
 export default function DiscountBanner() {
@@ -9,7 +9,7 @@ export default function DiscountBanner() {
     <section className="container py-10">
       <FadeIn>
         <Link
-          href="/products?discount=true"
+          href="/products?sort=discount"
           className="group relative block overflow-hidden rounded-3xl"
         >
           {/* image */}
@@ -23,7 +23,7 @@ export default function DiscountBanner() {
             />
 
           
-            <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-dark/80 to-primary/5" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-dark/80 to-transparent" />
           </div>
 
           {/* content */}

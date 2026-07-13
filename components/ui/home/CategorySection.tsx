@@ -8,22 +8,22 @@ const categories = [
   {
     title: "مانتو و کت",
     image: "/images/categories/coat.png",
-    href: "/products?category=manteau-coat",
+    href: "/products/manteau-coat",
   },
   {
     title: "کت شلوار",
     image: "/images/categories/outfit.png",
-    href: "/products?category=suit",
+    href: "/products/suit",
   },
   {
     title:  "پالتو و کاپشن",
     image: "/images/categories/raincoat.png",
-    href: "/products?category=coat",
+    href: "/products/coat",
   },
   {
     title: "فرم اداری",
     image: "/images/categories/official-set.png",
-    href: "/products?category=office-uniform",
+    href: "/products/office-uniform",
   },
 ];
 
