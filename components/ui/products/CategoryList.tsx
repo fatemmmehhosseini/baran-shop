@@ -1,7 +1,8 @@
+import { Category } from "@/types/category.type";
 import Link from "next/link";
 
 type CategoryListProps = {
-  categories: { id: number; name: string; slug: string }[];
+  categories: Category[];
   activeSlug: string;
 };
 

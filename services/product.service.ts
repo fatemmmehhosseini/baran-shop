@@ -119,3 +119,31 @@ export async function createProduct(product: CreateProductDto) {
   return result.insertId;
 }
 
+export async function getProductBySlug(slug: string) {
+  const [rows] = await db.query(
+    `
+      SELECT
+        p.*,
+        c.name AS category_name,
+        c.slug AS category_slug
+      FROM products p
+      INNER JOIN categories c
+        ON p.category_id = c.id
+      WHERE p.slug = ?
+      LIMIT 1
+    `,
+    [slug]
+  );
+
+  const product = (rows as Product[])[0];
+
+  if (!product) {
+    return null;
+  }
+
+  return {
+    ...product,
+    sizes: JSON.parse(product.sizes as unknown as string),
+    colors: JSON.parse(product.colors as unknown as string),
+  };
+}

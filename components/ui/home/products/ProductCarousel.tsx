@@ -67,7 +67,7 @@ export default function ProductCarousel({ products = [] }: Props) {
         onClick={() => emblaApi?.scrollPrev()}
         disabled={!canScrollPrev}
         aria-label="محصولات قبلی"
-        className="absolute -right-5 top-[38%] hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-background)] shadow-md transition hover:bg-[var(--color-surface)] disabled:pointer-events-none disabled:opacity-30 md:flex"
+        className="absolute -right-5 top-[38%] hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition hover:bg-surface) disabled:pointer-events-none disabled:opacity-30 md:flex"
       >
         <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
       </button>
@@ -77,7 +77,7 @@ export default function ProductCarousel({ products = [] }: Props) {
         onClick={() => emblaApi?.scrollNext()}
         disabled={!canScrollNext}
         aria-label="محصولات بعدی"
-        className="absolute -left-5 top-[38%] hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-background)] shadow-md transition hover:bg-[var(--color-surface)] disabled:pointer-events-none disabled:opacity-30 md:flex"
+        className="absolute -left-5 top-[38%] hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition hover:bg-surface disabled:pointer-events-none disabled:opacity-30 md:flex"
       >
         <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
       </button>

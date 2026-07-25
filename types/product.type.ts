@@ -14,6 +14,7 @@ export interface Product {
   is_best_seller: number;
   category_id: number;
   category_name: string;
+  category_slug: string;
   created_at: Date;
   updated_at: Date;
 }

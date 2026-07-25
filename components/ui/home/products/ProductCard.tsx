@@ -11,7 +11,9 @@ function formatToman(amount: number) {
   return new Intl.NumberFormat("fa-IR").format(Math.round(amount));
 }
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }: { product: Product}) {
+
+  
 
   const hasDiscount = product.discount > 0;
 
@@ -20,6 +22,10 @@ export default function ProductCard({ product }: { product: Product }) {
     ? product.price - (product.price * product.discount) / 100
     : product.price;
   const outOfStock = product.stock <= 0;
+
+
+  
+
  
 
   return (
@@ -29,7 +35,7 @@ export default function ProductCard({ product }: { product: Product }) {
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm transition-shadow duration-300 hover:shadow-xl"
     >
       <Link
-        href={`/products/${product.slug}`}
+        href={`/products/${product.category_slug}/${product.slug}`}
         className="relative block aspect-[3/4] w-full overflow-hidden bg-surface"
       >
         <Image
@@ -44,6 +50,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="absolute right-3 top-3 rounded-full   px-2.5 py-1 text-xs font-bold text-text shadow">
             ٪{product.discount} تخفیف
           </span>
+          
         )}
 
         {outOfStock && (
@@ -55,6 +62,7 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
 
         <button
+          
           type="button"
           aria-label="افزودن سریع به سبد خرید"
           disabled={outOfStock}
@@ -69,9 +77,10 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="text-xs text-text-secondary">
             {product.category_name}
           </span>
+          
         )}
 
-        <Link href={`/products/${product.slug}`}>
+        <Link href={`/products/${product.category_slug}/${product.slug}`}>
           <h3 className="line-clamp-2 min-h-[2.75rem] text-sm font-medium text-text transition-colors hover:text-primary">
             {product.title}
           </h3>

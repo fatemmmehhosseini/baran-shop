@@ -7,6 +7,7 @@ import MobileTabBar from "./MobileTabBar";
 import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
 import SearchOverlay from "./SearchOverlay";
+import { useCartStore } from "@/stores/cart.store";
 
 const NAV_LINKS = [
   { label: "صفحه اصلی", href: "/" },
@@ -18,8 +19,6 @@ const NAV_LINKS = [
   { label: "تماس با ما", href: "/contact" },
 ];
 
-// TODO: replace with real count from CartContext once it's wired up.
-const CART_COUNT = 2;
 
 
 
@@ -28,6 +27,11 @@ export default function Header() {
 
   const [isSidebar, setIsSidebar] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+
+  const cart = useCartStore((state)=>state.cart)
+  const cartCount = cart.reduce((total, item) => total + item.quantity,0);
+
 
   return (
     <>
@@ -57,7 +61,7 @@ export default function Header() {
               <input
                 type="search"
                 placeholder="جستجوی محصول، دسته‌بندی یا برند..."
-                className="h-12 w-full rounded-full border border-border bg-surface pr-11 pl-4 text-sm text-text placeholder:text-text-secondary outline-none transition focus:border-primary focus:ring-2 focus:ring-light/30"
+                className="h-12 w-full rounded-full border border-border bg-surface pr-11 pl-4 text-sm text-text placeholder:text-text-secondary outline-none transition focus:border-primary focus:ring-2 focus:ring-light/20"
               />
             </label>
           </div>
@@ -80,9 +84,9 @@ export default function Header() {
                 className="h-6 w-6 text-primary"
                 strokeWidth={1.75}
               />
-              {CART_COUNT > 0 && (
-                <span className="absolute -top-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary/90 text-[11px] font-bold text-white">
-                  {CART_COUNT}
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary/90 text-[11px] font-bold text-white">
+                  {cartCount}
                 </span>
               )}
             </Link>
@@ -105,7 +109,7 @@ export default function Header() {
                   className={`relative shrink-0 whitespace-nowrap py-4 text-sm font-medium transition ${
                     isActive
                       ? "text-light"
-                      : "text-text hover:text--primary"
+                      : "text-text hover:text-primary/80"
                   }`}
                 >
                   {link.label}
@@ -133,7 +137,7 @@ export default function Header() {
       </header>
 
       {/* ===== Mobile bottom tab bar ===== */}
-      <MobileTabBar setIsSearchOpen={setIsSearchOpen} setIsSidebar={setIsSidebar} cartCount={CART_COUNT} />
+      <MobileTabBar setIsSearchOpen={setIsSearchOpen} setIsSidebar={setIsSidebar} cartCount={cartCount} />
 
       <MobileSidebar
           isOpen={isSidebar}

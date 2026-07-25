@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { Category, CategoryListItem } from "@/types/category.type";
+import { Category} from "@/types/category.type";
 import { RowDataPacket } from "mysql2";
 
 
@@ -27,5 +27,5 @@ export async function getCategories() {
      FROM categories 
      ORDER BY name ASC`
   );
-  return rows as CategoryListItem[];
+  return rows as Category[];
 }

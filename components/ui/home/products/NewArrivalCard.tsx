@@ -21,7 +21,7 @@ export default function NewArrivalCard({
 
   return (
     <Link
-      href={`/products/${product.slug}`}
+      href={`/products/${product.category_slug}/${product.slug}`}
       className={`group relative block h-64 overflow-hidden rounded-2xl sm:h-80 lg:h-84`}
     >
       <Image

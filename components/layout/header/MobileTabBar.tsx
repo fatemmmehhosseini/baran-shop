@@ -58,8 +58,8 @@ export default function MobileTabBar({ cartCount = 0, setIsSidebar,setIsSearchOp
            justify-center
            rounded-full
            bg-primary
-           shadow-xl
-           shadow-primary/30
+           shadow-lg
+           shadow-primary/60
            transition-all
            duration-300
            hover:scale-105

@@ -20,7 +20,7 @@ export default function TabItem({
       <span className="relative">
         <Icon className="h-6 w-6" strokeWidth={1.75} />
         {!!badge && badge > 0 && (
-          <span className="absolute -top-1.5 -left-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+          <span className="absolute -top-3.5 -left-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
             {badge}
           </span>
         )}
