@@ -3,7 +3,7 @@ import "./globals.css";
 import { iranYekan } from "./fonts";
 import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/footer/Footer";
-
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +55,9 @@ export default function RootLayout({
       <body className={iranYekan.className}>
         <Header/>
         {children}
+        <Toaster
+          position="top-center"
+          reverseOrder={false}/>
         <Footer/>
       </body>
     </html>

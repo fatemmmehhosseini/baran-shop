@@ -1,21 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/lib/jwt";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
 
-  const protectedRoutes = [
-    "/profile",
-    "/checkout",
-    "/orders",
-  ];
+  const { pathname } = request.nextUrl;
 
-  const authRoutes = [
-    "/login",
-    "/register",
-  ];
 
-  const pathname = request.nextUrl.pathname;
+  const protectedRoutes = ["/profile", "/checkout", "/orders"];
+
+
+  const authRoutes = ["/login", "/register"];
 
   const isProtected = protectedRoutes.some((route) =>
     pathname.startsWith(route)
@@ -25,29 +19,23 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  
-  if (isProtected) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
 
-    try {
-      verifyToken(token);
-    } catch {
+  if (isProtected && !token) {
+    
       return NextResponse.redirect(new URL("/login", request.url));
-    }
+
+   
   }
 
-  
-  if (isAuthRoute && token) {
-    try {
-      verifyToken(token);
 
+  if (isAuthRoute && token) {
       return NextResponse.redirect(new URL("/", request.url));
-    } catch {
-      
-    }
+    
   }
 
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ["/profile/:path*", "/checkout/:path*", "/orders/:path*", "/login", "/register"],
+};

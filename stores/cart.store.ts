@@ -60,7 +60,7 @@ export const useCartStore = create<CartStore>()(persist((set) => ({
 
          decreaseQuantity: (item) =>
         set((state) => ({
-          cart: state .cart.flatMap((cartItem) => {
+          cart: state.cart.flatMap((cartItem) => {
           const isTarget = 
           cartItem.productId === item.productId &&
           cartItem.color === item.color &&

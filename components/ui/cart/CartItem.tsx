@@ -8,6 +8,7 @@ import { CartItem as CartItemType } from "@/types/cart.type";
 import { useCartStore } from "@/stores/cart.store";
 import FadeIn from "../home/FadeIn";
 
+
 type Props = {
   item: CartItemType;
 };
@@ -101,6 +102,7 @@ export default function CartItem({ item }: Props) {
                     color: item.color,
                     size: item.size,
                   })
+                  
                 }
                 className="rounded-xl p-2 text-red-500 transition hover:bg-red-50"
               >

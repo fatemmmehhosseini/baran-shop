@@ -1,13 +1,18 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Search, ShoppingCart, UserPlus } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Search, ShoppingCart, UserPlus, User, LogOut, ChevronDown } from "lucide-react";
 import MobileTabBar from "./MobileTabBar";
-import { useState } from "react";
 import MobileSidebar from "./MobileSidebar";
 import SearchOverlay from "./SearchOverlay";
+import { useState, useEffect, useRef } from "react";
 import { useCartStore } from "@/stores/cart.store";
+import { useUserStore } from "@/stores/user.store";
+import { authService } from "@/services/auth.service";
+import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 
 const NAV_LINKS = [
   { label: "صفحه اصلی", href: "/" },
@@ -19,38 +24,70 @@ const NAV_LINKS = [
   { label: "تماس با ما", href: "/contact" },
 ];
 
-
-
-
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
 
-  const [isSidebar, setIsSidebar] = useState(false)
+  // State Management
+  const [isSidebar, setIsSidebar] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  
+  // Stores
+  const cart = useCartStore((state) => state.cart);
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+  
+  const { user, isAuthenticated, isLoading, logout, checkAuth } = useUserStore();
 
+  // Ref for closing dropdown when clicking outside
+  const profileRef = useRef<HTMLDivElement>(null);
 
-  const cart = useCartStore((state)=>state.cart)
-  const cartCount = cart.reduce((total, item) => total + item.quantity,0);
+  // Check auth status on mount
+  useEffect(() => {
+    if (isLoading) {
+      checkAuth();
+    }
+  }, [isLoading, checkAuth]);
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      logout();
+      toast.success("با موفقیت خارج شدید");
+      router.push("/");
+      router.refresh();
+    } catch {
+      toast.error("خطا در خروج");
+    }
+    setIsProfileOpen(false);
+  };
 
   return (
     <>
       {/* ===== Desktop / tablet header ===== */}
-      <header className="sticky top-0  z-40 hidden border-b border-border bg-background md:block">
-        {/* top row: logo / search / cart+register */}
+      <header className="sticky top-0 z-40 hidden border-b border-border bg-background md:block">
+        {/* top row: logo / search / cart+user */}
         <div className="container flex justify-between gap-5 h-24 items-center">
-
-        <Link href="/" aria-label="بازگشت به صفحه اصلی">
-           <Image
-            src="/logo/logo.svg"
-            alt="Baran Logo"
-            loading="eager"
-            width={250}
-            height={150}
-          
-            
-          />
-        </Link>
+          <Link href="/" aria-label="بازگشت به صفحه اصلی">
+            <Image
+              src="/logo/logo.svg"
+              alt="Baran Logo"
+              loading="eager"
+              width={250}
+              height={150}
+            />
+          </Link>
 
           <div className="w-full max-w-xl">
             <label className="relative flex items-center">
@@ -67,14 +104,69 @@ export default function Header() {
           </div>
 
           <div className="flex shrink-0 items-center gap-6">
-            <Link
-              href="/register"
-              className="flex items-center gap-2 text-sm font-medium text-text transition hover:text-primary"
-            >
-              <UserPlus className="h-5 w-5 text-primary" strokeWidth={1.75} />
-              <span className="text-primary">ثبت‌نام | ورود</span>
-            </Link>
+            {/* Authentication Section */}
+            {isLoading ? (
+              <div className="h-10 w-24 animate-pulse rounded-lg bg-surface" />
+            ) : isAuthenticated && user ? (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 transition hover:border-primary hover:bg-white"
+                >
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                    {user.full_name.charAt(0) || "?"}
+                  </div>
+                  <span className="text-sm font-medium text-text hidden lg:block">
+                    {user.full_name}
+                  </span>
+                  <ChevronDown className={`h-4 w-4 text-text-secondary transition ${isProfileOpen ? 'rotate-180' : ''}`} />
+                </button>
 
+                <AnimatePresence>
+                  {isProfileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 top-full mt-3 w-56 overflow-hidden rounded-2xl border border-border bg-white shadow-xl z-[999]"
+                    >
+                      <div className="border-b border-border px-4 py-3 bg-surface ">
+                        <p className="text-sm font-bold text-text">{user.full_name}</p>
+                        <p className="text-xs text-text-secondary dir-ltr text-left">{user.phone}</p>
+                      </div>
+                      <div className="py-2">
+                        <Link
+                          href="/profile"
+                          className="flex items-center gap-2 px-4 py-2.5 text-sm text-text-secondary transition hover:bg-surface hover:text-primary"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <User size={18} />
+                          پنل کاربری
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-500 transition hover:bg-red-50"
+                        >
+                          <LogOut size={18} />
+                          خروج از حساب
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link
+                href="/register"
+                className="flex items-center gap-2 text-sm font-medium text-text transition hover:text-primary"
+              >
+                <UserPlus className="h-5 w-5 text-primary" strokeWidth={1.75} />
+                <span className="text-primary">ثبت‌نام | ورود</span>
+              </Link>
+            )}
+
+            {/* Cart */}
             <Link
               href="/cart"
               aria-label="سبد خرید"
@@ -126,7 +218,7 @@ export default function Header() {
       {/* ===== Mobile header: logo only ===== */}
       <header className="sticky top-0 z-40 flex h-16 items-center justify-center border-b border-border bg-background md:hidden">
         <Link href="/" aria-label="بازگشت به صفحه اصلی">
-           <Image
+          <Image
             src="/logo/logo.svg"
             alt="Baran Logo"
             width={200}
@@ -140,15 +232,17 @@ export default function Header() {
       <MobileTabBar setIsSearchOpen={setIsSearchOpen} setIsSidebar={setIsSidebar} cartCount={cartCount} />
 
       <MobileSidebar
-          isOpen={isSidebar}
-          onClose={() => setIsSidebar(false)}/>
+        isOpen={isSidebar}
+        onClose={() => setIsSidebar(false)}
+        isAuthenticated={isAuthenticated}
+        user={user}
+        onLogout={handleLogout}
+      />
 
       <SearchOverlay
         open={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
       />
-
     </>
   );
 }
-

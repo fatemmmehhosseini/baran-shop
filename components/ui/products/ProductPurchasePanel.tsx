@@ -5,6 +5,7 @@ import { ShoppingBag, Minus, Plus, Check } from "lucide-react";
 import type { Product } from "@/types/product.type"; 
 import { colorMap } from "@/lib/colorMap";
 import { useCartStore } from "@/stores/cart.store";
+import toast from "react-hot-toast";
 
 function formatToman(n: number) {
   return new Intl.NumberFormat("fa-IR").format(Math.round(n));
@@ -42,6 +43,7 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
+    toast.success("به سبد خرید اضافه شد");
   }
 
   const cart = useCartStore((state)=>state.cart)
