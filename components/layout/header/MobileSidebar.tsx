@@ -60,14 +60,16 @@ export default function MobileSidebar({
             height={45}
           />
           <button
+            type="button"
             onClick={onClose}
+            aria-label="بستن"
             className="rounded-full p-4 transition text-primary hover:bg-gray-200"
           >
-            <X size={22} />
+            <X size={22} aria-hidden="true"/>
           </button>
         </div>
 
-        {/* Menu Links */}
+        
         <nav className="px-4 py-6">
           <ul className="space-y-1">
             {links.map((item) => {
@@ -126,7 +128,7 @@ export default function MobileSidebar({
                 onClick={onLogout}
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-50 text-red-600 font-medium transition hover:bg-red-100"
               >
-                <LogOut size={18} />
+                <LogOut size={18} aria-hidden="true"/>
                 خروج از حساب
               </button>
             </>

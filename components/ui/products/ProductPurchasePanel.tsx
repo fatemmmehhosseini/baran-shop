@@ -46,8 +46,8 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
     toast.success("به سبد خرید اضافه شد");
   }
 
-  const cart = useCartStore((state)=>state.cart)
-  console.log(cart)
+  
+  
 
   return (
     <div className="flex h-full flex-col">
@@ -151,7 +151,7 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
             className="flex h-10 w-10 items-center justify-center text-text disabled:opacity-40"
             aria-label="زیاد کردن تعداد"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true"/>
           </button>
         </div>
 

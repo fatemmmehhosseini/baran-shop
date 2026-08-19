@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-
 import { comparePassword } from "@/lib/password";
-
 import { findUserByPhone } from "@/services/user.service";
 import { generateToken } from "@/lib/jwt";
 import { cookies } from "next/headers";

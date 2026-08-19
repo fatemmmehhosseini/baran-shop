@@ -43,12 +43,13 @@ export default function CartItem({ item }: Props) {
 
           <Link
             href={`/products/${item.category_slug}/${item.slug}`}
+            aria-label={`مشاهده ${item.title}`}
             className="relative h-36 w-28 overflow-hidden rounded-2xl bg-surface"
           >
 
             <Image
               src={item.thumbnail}
-              alt={item.title}
+              alt=""
               fill
               sizes="120px"
               className="object-cover"
@@ -96,6 +97,7 @@ export default function CartItem({ item }: Props) {
               </div>
 
               <button
+              type="button"
                 onClick={() =>
                   removeItem({
                     productId: item.productId,
@@ -104,9 +106,10 @@ export default function CartItem({ item }: Props) {
                   })
                   
                 }
+                aria-label={`حذف از سبد خرید`}
                 className="rounded-xl p-2 text-red-500 transition hover:bg-red-50"
               >
-                <Trash2 size={18} />
+                <Trash2 size={18} aria-hidden="true"/>
               </button>
 
             </div>
@@ -130,6 +133,7 @@ export default function CartItem({ item }: Props) {
               <div className="flex items-center rounded-2xl border border-border">
 
                 <button
+                 type="button"
                   onClick={() =>
                     decreaseQuantity({
                       productId: item.productId,
@@ -137,10 +141,10 @@ export default function CartItem({ item }: Props) {
                       size: item.size,
                     })
                   }
-                  
+                  aria-label="کاهش تعداد محصول"
                   className="p-3 transition hover:bg-surface disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <Minus size={18} />
+                  <Minus size={18} aria-hidden="true"/>
                 </button>
 
                 <span className="min-w-10 text-center font-bold">
@@ -148,6 +152,7 @@ export default function CartItem({ item }: Props) {
                 </span>
 
                 <button
+                 type="button"
                   onClick={() =>
                     increaseQuantity({
                       productId: item.productId,
@@ -155,10 +160,11 @@ export default function CartItem({ item }: Props) {
                       size: item.size,
                     })
                   }
+                  aria-label="افزایش تعداد محصول"
                   disabled={isMaxStock}
                   className="p-3 transition hover:bg-surface disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <Plus size={18} />
+                  <Plus size={18} aria-hidden="true"/>
                 </button>
 
               </div>

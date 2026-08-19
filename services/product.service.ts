@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { CreateProductDto, GetProductsOptions, Product } from "@/types/product.type";
+import { CreateProductDto, GetProductsOptions, Product, SearchProduct } from "@/types/product.type";
 import { ResultSetHeader } from "mysql2";
 
 export async function getProducts(options?: GetProductsOptions) {
@@ -77,49 +77,50 @@ export async function getProducts(options?: GetProductsOptions) {
  
 }
 
-export async function createProduct(product: CreateProductDto) {
-  const [result] = await db.query<ResultSetHeader>(
-    `
-      INSERT INTO products
-      (
-        product_code,
-        title,
-        slug,
-        description,
-        price,
-        discount,
-        stock,
-        thumbnail,
-        sizes,
-        colors,
-        status,
-        is_best_seller,
-        category_id
-      )
+// export async function createProduct(product: CreateProductDto) {
+//   const [result] = await db.query<ResultSetHeader>(
+//     `
+//       INSERT INTO products
+//       (
+//         product_code,
+//         title,
+//         slug,
+//         description,
+//         price,
+//         discount,
+//         stock,
+//         thumbnail,
+//         sizes,
+//         colors,
+//         status,
+//         is_best_seller,
+//         category_id
+//       )
 
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
-    `,
-    [
-      product.product_code,
-      product.title,
-      product.slug,
-      product.description,
-      product.price,
-      product.discount,
-      product.stock,
-      product.thumbnail,
-      JSON.stringify(product.sizes),
-      JSON.stringify(product.colors),
-      product.status,
-      product.is_best_seller,
-      product.category_id,
-    ]
-  );
+//       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+//     `,
+//     [
+//       product.product_code,
+//       product.title,
+//       product.slug,
+//       product.description,
+//       product.price,
+//       product.discount,
+//       product.stock,
+//       product.thumbnail,
+//       JSON.stringify(product.sizes),
+//       JSON.stringify(product.colors),
+//       product.status,
+//       product.is_best_seller,
+//       product.category_id,
+//     ]
+//   );
 
-  return result.insertId;
-}
+//   return result.insertId;
+// }
 
 export async function getProductBySlug(slug: string) {
+
   const [rows] = await db.query(
     `
       SELECT
@@ -146,4 +147,45 @@ export async function getProductBySlug(slug: string) {
     sizes: JSON.parse(product.sizes as unknown as string),
     colors: JSON.parse(product.colors as unknown as string),
   };
+}
+
+
+export async function searchProducts(
+  query: string
+): Promise<SearchProduct[]> {
+  const keyword = query.trim();
+
+  if (!keyword) {
+    return [];
+  }
+
+  const search = `%${keyword}%`;
+
+  const [rows] = await db.query<SearchProduct[]>(
+    `
+      SELECT
+        p.id,
+        p.title,
+        p.slug,
+        p.thumbnail,
+        c.slug AS category_slug
+       
+      FROM products p
+
+      INNER JOIN categories c
+        ON c.id = p.category_id
+
+      WHERE
+            p.title LIKE ?
+         OR p.slug LIKE ?
+         OR c.name LIKE ?
+
+      ORDER BY p.id DESC
+
+      LIMIT 10
+    `,
+    [search, search, search]
+  );
+
+  return rows;
 }

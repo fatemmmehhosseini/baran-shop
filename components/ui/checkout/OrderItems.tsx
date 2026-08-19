@@ -21,8 +21,10 @@ export default function OrderItems({ items }: Props) {
       <div className="divide-y divide-border">
         {items.map((item) => (
           <div key={`${item.productId}-${item.color}-${item.size}`} className="flex gap-4 py-4">
-            <Link href={`/products/${item.category_slug}/${item.slug}`} className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">
-              <Image src={item.thumbnail} alt={item.title} fill className="object-cover" />
+            <Link href={`/products/${item.category_slug}/${item.slug}`} 
+            aria-label={`مشاهده محصول ${item.title}`}
+            className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">
+              <Image src={item.thumbnail} alt="" fill className="object-cover" />
             </Link>
             
             <div className="flex flex-1 flex-col justify-between">

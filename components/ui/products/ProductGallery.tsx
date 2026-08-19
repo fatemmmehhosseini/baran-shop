@@ -21,11 +21,13 @@ export default function ProductGallery({ images, alt }: Props) {
               key={img + i}
               type="button"
               onClick={() => setActive(i)}
+              aria-label={`نمایش تصویر ${i + 1} از ${gallery.length}`}
+              aria-pressed={active === i}
               className={`relative h-20 w-18 shrink-0 overflow-hidden rounded-xl border-3 transition ${
                 active === i ? "border-primary" : "border-transparent"
               }`}
             >
-              <Image src={img} alt={`${alt} ${i + 1}`} fill sizes="64px" className="object-cover" />
+              <Image src={img} alt="" fill sizes="64px" className="object-cover" />
             </button>
           ))}
         </div>

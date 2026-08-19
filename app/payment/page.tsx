@@ -34,7 +34,7 @@ export default function PaymentPage() {
     password: "",
   });
 
-  // بارگذاری داده‌ها از sessionStorage
+
   useEffect(() => {
     const data = sessionStorage.getItem("checkout_data");
     if (!data) {
@@ -66,21 +66,20 @@ export default function PaymentPage() {
   );
   const shipping = 80000; 
   const finalPrice = totalPrice + shipping;
-
-  // هندلر تغییرات فرم با فرمت‌دهی شماره کارت
+   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     
     if (name === "cardNumber") {
-      // فقط عدد و حداکثر ۱۶ رقم
+      
       const numericValue = value.replace(/\D/g, "").slice(0, 16);
-      // فرمت‌دهی ۴ رقم ۴ رقم
+      
       const formatted = numericValue.replace(/(\d{4})(?=\d)/g, "$1-");
       setFormData((prev) => ({ ...prev, cardNumber: formatted }));
     } else if (name === "cvv2") {
       setFormData((prev) => ({ ...prev, cvv2: value.replace(/\D/g, "").slice(0, 4) }));
     } else if (name === "expiry") {
-      // فرمت MM/YY
+      
       let cleanVal = value.replace(/\D/g, "").slice(0, 4);
       if (cleanVal.length >= 2) {
         cleanVal = `${cleanVal.slice(0, 2)}/${cleanVal.slice(2)}`;
@@ -117,10 +116,10 @@ export default function PaymentPage() {
     try {
       setLoading(true);
       
-      // شبیه‌سازی تاخیر شبکه
+      
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // ثبت نهایی سفارش در اینجا انجام می‌شود (فقط پس از کلیک روی پرداخت موفق)
+  
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -136,7 +135,7 @@ export default function PaymentPage() {
         throw new Error(data.message || "خطا در ثبت سفارش");
       }
 
-      // پاک کردن داده‌های موقت و سبد خرید
+      
       sessionStorage.removeItem("checkout_data");
       clearCart();
       
@@ -171,7 +170,7 @@ export default function PaymentPage() {
           </div>
         </div>
 
-        {/* Order Summary Mini */}
+        
         <div className="mb-8 rounded-2xl bg-surface p-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -199,7 +198,6 @@ export default function PaymentPage() {
           </div>
         </div>
 
-        {/* Form */}
         <div className="space-y-5">
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-medium text-text">
@@ -256,7 +254,7 @@ export default function PaymentPage() {
           </div>
         </div>
 
-        {/* Actions */}
+        
         <div className="mt-10 space-y-3">
           <button
             onClick={handleSuccess}

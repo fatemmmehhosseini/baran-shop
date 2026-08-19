@@ -3,7 +3,7 @@ import { products } from "@/data/products";
 
 async function seed() {
   try {
-    console.log("شروع وارد کردن محصولات...");
+    // console.log("شروع وارد کردن محصولات...");
 
     for (const product of products) {
       await db.query(
@@ -43,7 +43,7 @@ async function seed() {
       );
     }
 
-    console.log("✅ همه محصولات وارد شدند.");
+    // console.log("✅ همه محصولات وارد شدند.");
     process.exit(0);
   } catch (error) {
     console.error(error);

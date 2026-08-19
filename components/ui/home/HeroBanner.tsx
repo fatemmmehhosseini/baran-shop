@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -11,13 +11,9 @@ const SLIDES = [
   { src: "/images/banner/img3.png", alt: "بنر ۳" },
 ];
 
-
-
 export default function Banner() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const goTo = useCallback((index: number) => {
     setCurrent((index + SLIDES.length) % SLIDES.length);
@@ -26,69 +22,67 @@ export default function Banner() {
   const next = useCallback(() => goTo(current + 1), [current, goTo]);
   const prev = useCallback(() => goTo(current - 1), [current, goTo]);
 
-  // autoplay
   useEffect(() => {
     if (isPaused) return;
-
-    timerRef.current = setInterval(() => {
+    const timer = setInterval(() => {
       setCurrent((c) => (c + 1) % SLIDES.length);
     }, 3000);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [current, isPaused]);
-
- 
+    return () => clearInterval(timer);
+  }, [isPaused]);
 
   return (
     <div
-      className=" container group relative aspect-[4/3] w-full overflow-hidden rounded-2xl sm:aspect-[16/9] lg:aspect-[3/1.4]"
+      className="container group relative aspect-[16/8.4] lg:aspect-[3/1.3] w-full overflow-hidden rounded-2xl"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {SLIDES.map((slide, index) => (
-        <div
-          key={slide.src}
-          className="absolute inset-0 transition-opacity duration-700 ease-in-out aspect-[4/2.18] w-full sm:aspect-[21/11] lg:aspect-[3/1.3]"
-          style={{ opacity: index === current ? 1 : 0, zIndex: index === current ? 1 : 0 }}
-          aria-hidden={index !== current}
-        >
-          <Image
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            sizes="100vw"
-            priority={index === 0}
-             className={`object-cover lg:px-9 transition-all duration-700  rounded-2xl ${
-              current === index
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-105"
-            }`}
-          />
-        </div>
-      ))}
+      {SLIDES.map((slide, index) => {
+        const isActive = index === current;
+        return (
+          <div
+            key={slide.src}
+            className="absolute inset-0 transition-opacity duration-700 ease-in-out w-full"
+            style={{ opacity: isActive ? 1 : 0, zIndex: isActive ? 1 : 0 }}
+            aria-hidden={!isActive}
+          >
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              priority={index === 0}
+              loading={index === 0 ? "eager" : "lazy"}
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className={`object-cover transition-all duration-700 rounded-2xl ${
+                isActive
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-105"
+              }`}
+              quality={85} 
+            />
+          </div>
+        );
+      })}
 
-      {/* prev / next controls */}
+      {/* Controls */}
       <button
         type="button"
-        onClick={() => prev()}
+        onClick={prev}
         aria-label="اسلاید قبلی"
-        className="absolute top-1/2 right-3 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[var(--color-text)] opacity-0 shadow-md transition hover:bg-white group-hover:opacity-100 focus-visible:opacity-100"
+        className="absolute top-1/2 right-3 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-text opacity-0 shadow-md transition hover:bg-white group-hover:opacity-100 focus-visible:opacity-100"
       >
         <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
       </button>
 
       <button
         type="button"
-        onClick={() => next()}
+        onClick={next}
         aria-label="اسلاید بعدی"
-        className="absolute top-1/2 left-3 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[var(--color-text)] opacity-0 shadow-md transition hover:bg-white group-hover:opacity-100 focus-visible:opacity-100"
+        className="absolute top-1/2 left-3 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-text opacity-0 shadow-md transition hover:bg-white group-hover:opacity-100 focus-visible:opacity-100"
       >
         <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
       </button>
 
-      {/* dots */}
+      {/* Dots */}
       <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-2">
         {SLIDES.map((slide, index) => (
           <button

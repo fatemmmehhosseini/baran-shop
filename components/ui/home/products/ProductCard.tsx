@@ -31,6 +31,7 @@ export default function ProductCard({ product }: { product: Product}) {
   return (
     <motion.div
       whileHover={{ y: -6 }}
+      viewport={{ once: true}}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm transition-shadow duration-300 hover:shadow-xl"
     >

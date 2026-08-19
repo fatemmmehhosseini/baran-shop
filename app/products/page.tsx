@@ -4,7 +4,44 @@ import PriceRangeFilter from '@/components/ui/products/PriceRangeFilter';
 import SortSelect from '@/components/ui/products/SortSelect';
 import { getProducts } from '@/services/product.service'
 import { PackageSearch } from 'lucide-react'
-import React from 'react'
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "همه محصولات | فروشگاه باران",
+  description:
+    "مشاهده جدیدترین محصولات فروشگاه باران شامل مانتو، ست، پالتو، پیراهن، شومیز و اکسسوری زنانه با تضمین کیفیت و ارسال سریع.",
+  keywords: [
+    "همه محصولات",
+    "فروشگاه باران",
+    "لباس زنانه",
+    "خرید لباس زنانه",
+    "مانتو",
+    "ست زنانه",
+    "پالتو",
+    "شومیز",
+    "پیراهن زنانه",
+  ],
+  alternates: {
+    canonical: "https://baranshop.ir/products",
+  },
+  openGraph: {
+    title: "همه محصولات | فروشگاه باران",
+    description:
+      "جدیدترین محصولات فروشگاه باران را مشاهده کنید.",
+    url: "https://baranshop.ir/products",
+    siteName: "Baran Shop",
+    locale: "fa_IR",
+    type: "website",
+    images: [
+      {
+        url: "/images/banner/img1.png",
+        width: 1200,
+        height: 630,
+        alt: "همه محصولات فروشگاه باران",
+      },
+    ],
+  },
+};
 
 
 type Props = {
@@ -48,12 +85,12 @@ export default async function page({searchParams}: Props ) {
           <div className="flex flex-col gap-8 lg:flex-row">
             
             <aside className="hidden w-72 shrink-0 lg:block">
-              <div className="sticky top-24 flex flex-col gap-6">{/* <CategoryList categories={categories} activeSlug={category} /> */}
+              <div className="sticky top-24 flex flex-col gap-6">
                 <PriceRangeFilter />
               </div>
             </aside>
     
-            {/* محتوای اصلی */}
+           
             <div className="flex-1">
               <div className="mb-6 flex items-center justify-end">
                      <SortSelect />

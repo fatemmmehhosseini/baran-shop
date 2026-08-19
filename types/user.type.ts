@@ -21,3 +21,11 @@ export interface CreateUserDto {
   phone: string;
   password: string;
 }
+
+export interface UpdateUserInput {
+  full_name: string;
+  province: string;
+  city: string;
+  address: string;
+  postal_code: string;
+}

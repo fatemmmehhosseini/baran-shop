@@ -34,6 +34,7 @@ export default function CartPage() {
                 key={`${item.productId}-${item.color}-${item.size}`}
                 layout
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                viewport={{ once: true}}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, x: -100, transition: { duration: 0.5 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}

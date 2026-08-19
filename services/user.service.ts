@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import { ResultSetHeader } from "mysql2";
-import { CreateUserDto, User } from "@/types/user.type";
+import { CreateUserDto, UpdateUserInput, User } from "@/types/user.type";
 
 
 
@@ -61,4 +61,64 @@ export async function createUser(data: CreateUserDto) {
   );
 
   return result.insertId;
+}
+
+
+
+export async function getUserById(
+  userId: number
+): Promise<User | null> {
+  const [rows] = await db.execute<User[]>(
+    `
+      SELECT
+        id,
+        full_name,
+        phone,
+        province,
+        city,
+        address,
+        postal_code,
+        is_active,
+        created_at,
+        updated_at
+      FROM users
+      WHERE id = ?
+      LIMIT 1
+    `,
+    [userId]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rows[0];
+}
+
+export async function updateUser(
+  userId: number,
+  data: UpdateUserInput
+): Promise<boolean> {
+  const [result] = await db.execute<ResultSetHeader>(
+    `
+      UPDATE users
+      SET
+        full_name = ?,
+        province = ?,
+        city = ?,
+        address = ?,
+        postal_code = ?
+      WHERE id = ?
+    `,
+    [
+      data.full_name,
+      data.province,
+      data.city,
+      data.address,
+      data.postal_code,
+      userId,
+    ]
+  );
+
+  return result.affectedRows > 0;
 }

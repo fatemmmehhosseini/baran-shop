@@ -30,8 +30,7 @@ export default function Footer() {
     <>
       <footer className="mt-20 border-t border-border bg-surface">
         <div className="container py-10">
-          {/* ================= Top ================= */}
-
+          
           <div className="flex flex-col items-center">
 
             <Image
@@ -50,11 +49,10 @@ export default function Footer() {
 
           </div>
 
-          {/* ================= Links ================= */}
 
           <div className="mt-10 grid text-center gap-12 md:grid-cols-3">
 
-            {/* Quick Links */}
+           
 
             <div>
 
@@ -101,7 +99,7 @@ export default function Footer() {
 
             </div>
 
-            {/* Categories */}
+            
 
             <div>
 
@@ -139,8 +137,7 @@ export default function Footer() {
 
             </div>
 
-            {/* Contact */}
-
+            
             <div>
 
               <h3 className="mb-5 text-lg font-bold text-primary">
@@ -166,30 +163,33 @@ export default function Footer() {
 
               </ul>
 
-              {/* Social */}
+              
 
               <div className="mt-6 flex gap-3 justify-center">
 
-                <a
-                  href="#"
+                <Link
+                  href="/"
+                  aria-label="اینستاگرام باران"
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-300 hover:bg-primary hover:text-white"
                 >
-                  <FaInstagram size={20} />
-                </a>
+                  <FaInstagram size={20} aria-hidden="true"/>
+                </Link>
 
-                <a
-                  href="#"
+                <Link
+                  href="/"
+                  aria-label="تلگرام باران"
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-300 hover:bg-primary hover:text-white"
                 >
-                  <FaTelegram size={20} />
-                </a>
+                  <FaTelegram size={20} aria-hidden="true"/>
+                </Link>
 
-                <a
-                  href="#"
+                <Link
+                  href="/"
+                  aria-label="تلگرام باران"
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-300 hover:bg-primary hover:text-white"
                 >
-                  <FaWhatsapp size={20} />
-                </a>
+                  <FaWhatsapp size={20} aria-hidden="true"/>
+                </Link>
 
               </div>
 
@@ -199,7 +199,7 @@ export default function Footer() {
 
         </div>
 
-        {/* ================= Bottom ================= */}
+        
 
         <div className="border-t border-border bg-background py-5">
 
@@ -219,7 +219,7 @@ export default function Footer() {
 
       </footer>
 
-      {/* ================= Back To Top ================= */}
+      
 
       {showButton && (
         <button
@@ -244,6 +244,7 @@ export default function Footer() {
             hover:scale-110
             hover:bg-dark
           "
+          aria-label="بازگشت به ابتدای صفحه"
         >
           <ChevronUp size={22} />
         </button>

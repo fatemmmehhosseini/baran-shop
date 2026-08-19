@@ -26,6 +26,7 @@ export default async function BestSellerSection() {
 
           <Link
             href="/products?sort=bestSeller"
+            aria-label="مشاهده همه محصولات پرفروش"
             className="hidden shrink-0 text-sm font-medium text-primary hover:underline sm:block"
           >
             مشاهده همه

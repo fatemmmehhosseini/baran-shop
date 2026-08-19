@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, ShoppingCart, UserPlus, User, LogOut, ChevronDown } from "lucide-react";
+import { ShoppingCart, UserPlus, User, LogOut, ChevronDown } from "lucide-react";
 import MobileTabBar from "./MobileTabBar";
 import MobileSidebar from "./MobileSidebar";
 import SearchOverlay from "./SearchOverlay";
@@ -13,6 +13,7 @@ import { useUserStore } from "@/stores/user.store";
 import { authService } from "@/services/auth.service";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import SearchBox from "@/components/ui/search/SearchBox";
 
 const NAV_LINKS = [
   { label: "صفحه اصلی", href: "/" },
@@ -28,28 +29,29 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // State Management
+  
   const [isSidebar, setIsSidebar] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   
-  // Stores
+  
   const cart = useCartStore((state) => state.cart);
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
   
   const { user, isAuthenticated, isLoading, logout, checkAuth } = useUserStore();
 
-  // Ref for closing dropdown when clicking outside
+  
   const profileRef = useRef<HTMLDivElement>(null);
 
-  // Check auth status on mount
-  useEffect(() => {
-    if (isLoading) {
-      checkAuth();
-    }
-  }, [isLoading, checkAuth]);
 
-  // Close dropdown on outside click
+  
+  useEffect(() => {
+    
+      checkAuth();
+    
+  }, [ checkAuth]);
+
+  
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
@@ -75,9 +77,9 @@ export default function Header() {
 
   return (
     <>
-      {/* ===== Desktop / tablet header ===== */}
+     
       <header className="sticky top-0 z-40 hidden border-b border-border bg-background md:block">
-        {/* top row: logo / search / cart+user */}
+        
         <div className="container flex justify-between gap-5 h-24 items-center">
           <Link href="/" aria-label="بازگشت به صفحه اصلی">
             <Image
@@ -89,19 +91,8 @@ export default function Header() {
             />
           </Link>
 
-          <div className="w-full max-w-xl">
-            <label className="relative flex items-center">
-              <Search
-                className="pointer-events-none absolute right-4 h-5 w-5 text-text-secondary"
-                strokeWidth={1.75}
-              />
-              <input
-                type="search"
-                placeholder="جستجوی محصول، دسته‌بندی یا برند..."
-                className="h-12 w-full rounded-full border border-border bg-surface pr-11 pl-4 text-sm text-text placeholder:text-text-secondary outline-none transition focus:border-primary focus:ring-2 focus:ring-light/20"
-              />
-            </label>
-          </div>
+          
+          <SearchBox mode="desktop" />
 
           <div className="flex shrink-0 items-center gap-6">
             {/* Authentication Section */}
@@ -127,6 +118,7 @@ export default function Header() {
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true}}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
                       className="absolute left-0 top-full mt-3 w-56 overflow-hidden rounded-2xl border border-border bg-white shadow-xl z-[999]"
@@ -148,7 +140,7 @@ export default function Header() {
                           onClick={handleLogout}
                           className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-500 transition hover:bg-red-50"
                         >
-                          <LogOut size={18} />
+                          <LogOut size={18} aria-hidden="true"/>
                           خروج از حساب
                         </button>
                       </div>

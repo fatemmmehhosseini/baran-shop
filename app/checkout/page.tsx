@@ -89,7 +89,7 @@ export default function CheckoutPage() {
     setErrors(newErrors);
     
     if (!isValid) {
-      // اسکرول به بخش خطا
+      
       const errorElement = document.getElementById("address-section");
       errorElement?.scrollIntoView({ behavior: "smooth", block: "center" });
       toast.error("لطفاً فیلدهای آدرس را کامل و صحیح وارد کنید");

@@ -1,3 +1,5 @@
+import { RowDataPacket } from "mysql2";
+
 export interface Product {
   id: number;
   product_code: string;
@@ -45,4 +47,14 @@ export interface GetProductsOptions {
   limit?: number;
 
   sort?: "newest" | "bestSeller" | "oldest" | "price-asc" | "price-desc" | "discount";
+}
+
+export interface SearchProduct extends RowDataPacket {
+  id: number;
+  title: string;
+  slug: string;
+
+  thumbnail: string | null;
+  category_slug: string;
+  
 }

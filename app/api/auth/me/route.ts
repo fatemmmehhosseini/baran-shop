@@ -14,11 +14,8 @@ export async function GET() {
     if (!token) {
       return NextResponse.json(
         {
-          success: false,
-          message: "کاربر وارد نشده است.",
-        },
-        {
-          status: 401,
+          success: true,
+           user: null,
         }
       );
     }

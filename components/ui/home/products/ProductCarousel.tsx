@@ -61,7 +61,7 @@ export default function ProductCarousel({ products = [] }: Props) {
         </div>
       </div>
 
-      {/* prev/next: desktop only, hidden on mobile so users just swipe/scroll */}
+     
       <button
         type="button"
         onClick={() => emblaApi?.scrollPrev()}

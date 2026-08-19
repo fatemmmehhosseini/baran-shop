@@ -60,6 +60,7 @@ export default function LoginPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        viewport={{ once: true}}
         className="w-full max-w-md rounded-3xl border border-border bg-white p-8 shadow-xl"
       >
         <div className="mb-8 text-center">
@@ -91,7 +92,7 @@ export default function LoginPage() {
             {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
           </div>
 
-          {/* رمز عبور */}
+          
           <div>
             <label className="mb-2 block text-sm font-medium text-text">
               رمز عبور
@@ -110,9 +111,10 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"}
                 className="absolute left-3 top-3.5 text-text-secondary hover:text-text"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={20} aria-hidden="true"/> : <Eye size={20} aria-hidden="true"/>}
               </button>
             </div>
             {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}

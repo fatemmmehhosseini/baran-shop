@@ -47,11 +47,13 @@ export const authService = {
         credentials: "include",
         cache: "no-store"
       });
+
+    
       
       if (!res.ok) return null;
       
       const data = await res.json();
-      return data.user as User;
+      return data.user as User || null;
     } catch {
       return null;
     }

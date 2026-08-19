@@ -95,7 +95,7 @@ export async function POST(request: Request) {
     );
 
 
-  }catch (error) {
+  }catch {
   return NextResponse.json(
     {
       success: false,

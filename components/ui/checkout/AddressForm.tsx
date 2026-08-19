@@ -24,7 +24,7 @@ export default function AddressForm({ address, setAddress, errors }: Props) {
       <h2 className="mb-6 text-lg font-bold text-text">آدرس تحویل سفارش</h2>
       
       <div className="grid gap-5 md:grid-cols-2">
-        {/* نام گیرنده */}
+        
         <div className="md:col-span-2">
           <label className="mb-2 block text-sm font-medium text-text">نام و نام خانوادگی</label>
           <input
@@ -39,7 +39,7 @@ export default function AddressForm({ address, setAddress, errors }: Props) {
           {errors.fullName && <p className="mt-1 text-xs text-red-500">{errors.fullName}</p>}
         </div>
 
-        {/* شماره موبایل */}
+        
         <div>
           <label className="mb-2 block text-sm font-medium text-text">شماره موبایل</label>
           <input
@@ -55,7 +55,7 @@ export default function AddressForm({ address, setAddress, errors }: Props) {
           {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
         </div>
 
-        {/* کد پستی */}
+        
         <div>
           <label className="mb-2 block text-sm font-medium text-text">کد پستی</label>
           <input
@@ -71,7 +71,7 @@ export default function AddressForm({ address, setAddress, errors }: Props) {
           {errors.postalCode && <p className="mt-1 text-xs text-red-500">{errors.postalCode}</p>}
         </div>
 
-        {/* استان */}
+       
         <div>
           <label className="mb-2 block text-sm font-medium text-text">استان</label>
           <select
@@ -94,12 +94,12 @@ export default function AddressForm({ address, setAddress, errors }: Props) {
             <option value="قم">قم</option>
             <option value="گلستان">گلستان</option>
             <option value="مازندران">مازندران</option>
-            {/* سایر استان‌ها */}
+           
           </select>
           {errors.province && <p className="mt-1 text-xs text-red-500">{errors.province}</p>}
         </div>
 
-        {/* شهر */}
+       
         <div>
           <label className="mb-2 block text-sm font-medium text-text">شهر</label>
           <input
@@ -114,7 +114,7 @@ export default function AddressForm({ address, setAddress, errors }: Props) {
           {errors.city && <p className="mt-1 text-xs text-red-500">{errors.city}</p>}
         </div>
 
-        {/* آدرس کامل */}
+        
         <div className="md:col-span-2">
           <label className="mb-2 block text-sm font-medium text-text">آدرس دقیق</label>
           <textarea

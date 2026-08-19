@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+
 
 export const metadata: Metadata = {
   title: "پرداخت موفق | باران‌شاپ",
@@ -13,8 +15,13 @@ type Props = {
 
 export default async function SuccessPage({ searchParams }: Props) {
   const params = await searchParams;
-  const orderNumber = params.order || "نامشخص";
+  const orderNumber = params.order;
   const amount = params.amount ? Number(params.amount) : 0;
+  
+  if (!orderNumber) {
+    
+    redirect("/"); 
+  }
 
   const formattedAmount = new Intl.NumberFormat("fa-IR").format(amount);
 

@@ -8,6 +8,96 @@ import CategoryList from "@/components/ui/products/CategoryList";
 import PriceRangeFilter from "@/components/ui/products/PriceRangeFilter";
 import SortSelect from "@/components/ui/products/SortSelect";
 
+const categoryMeta = {
+  "office-uniform": {
+    title: "لباس فرم اداری",
+    description:
+      "خرید لباس فرم اداری زنانه با طراحی رسمی، پارچه باکیفیت و دوخت حرفه‌ای از فروشگاه باران.",
+    keywords: [
+      "لباس فرم اداری",
+      "فرم اداری زنانه",
+      "خرید لباس اداری",
+      "فروشگاه باران",
+    ],
+  },
+
+  coat: {
+    title: "پالتو زنانه",
+    description:
+      "جدیدترین مدل‌های پالتو زنانه با کیفیت بالا، طراحی مدرن و ارسال سریع از فروشگاه باران.",
+    keywords: [
+      "پالتو زنانه",
+      "خرید پالتو",
+      "پالتو شیک",
+      "باران",
+    ],
+  },
+
+  "manteau-coat": {
+    title: "مانتو و پالتو",
+    description:
+      "مشاهده جدیدترین مدل‌های مانتو و پالتو زنانه با طراحی خاص و کیفیت بالا از فروشگاه باران.",
+    keywords: [
+      "مانتو",
+      "پالتو",
+      "مانتو زنانه",
+      "خرید مانتو",
+      "باران",
+    ],
+  },
+
+  suit: {
+    title: "ست زنانه",
+    description:
+      "خرید انواع ست زنانه شیک و مدرن مناسب استفاده روزمره و مجلسی از فروشگاه باران.",
+    keywords: [
+      "ست زنانه",
+      "خرید ست",
+      "لباس ست",
+      "باران",
+    ],
+  },
+};
+
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  const { category } = await params;
+
+  const meta =
+    categoryMeta[category as keyof typeof categoryMeta] ?? {
+      title: "محصولات",
+      description: "مشاهده محصولات فروشگاه باران",
+      keywords: ["فروشگاه باران"],
+    };
+
+  return {
+    title: `${meta.title} | فروشگاه باران`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: {
+      canonical: `https://baranshop.ir/products/${category}`,
+    },
+    openGraph: {
+      title: `${meta.title} | فروشگاه باران`,
+      description: meta.description,
+      url: `https://baranshop.ir/products/${category}`,
+      images: [
+        {
+          url: `/images/og/${category}.jpg`,
+          width: 1200,
+          height: 630,
+          alt: meta.title,
+        },
+      ],
+    },
+  };
+}
+
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -41,7 +131,8 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   return (
     <div className="container py-8 pb-24 md:pb-8">
-      {/* breadcrumb */}
+      
+      
       <nav className="mb-4 flex items-center gap-2 text-xs text-text-secondary">
         <Link href="/" className="transition hover:text-primary">
           خانه
@@ -70,7 +161,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           </div>
         </aside>
 
-        {/* محتوای اصلی */}
+        
         <div className="flex-1">
           <div className="mb-6 flex items-center justify-end">
             <SortSelect />

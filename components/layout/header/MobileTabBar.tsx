@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import { Menu, User, Search, ShoppingCart, Home } from "lucide-react";
 import TabItem from "./TabItem";
 
@@ -79,7 +78,7 @@ export default function MobileTabBar({ cartCount = 0, setIsSidebar,setIsSearchOp
          <span className="text-[11px] font-medium">منو</span>
         </button>
 
-        <TabItem href="/account" label="حساب کاربری" icon={User} />
+        <TabItem href="/profile" label="حساب کاربری" icon={User} />
 
         <span aria-hidden="true" />
 
