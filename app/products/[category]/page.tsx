@@ -88,7 +88,7 @@ export async function generateMetadata({
       url: `https://baranshop.ir/products/${category}`,
       images: [
         {
-          url: `/images/og/${category}.jpg`,
+          url: `/images/categories/coat.webp`,
           width: 1200,
           height: 630,
           alt: meta.title,

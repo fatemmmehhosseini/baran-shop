@@ -22,7 +22,7 @@ export default function CartSummary() {
     (total, item) =>total +(item.originalPrice - item.price) * item.quantity,0);
 
 
-  const shipping = 0;
+  const shipping = 80000;
 
   
   const finalPrice = totalPrice - totalDiscount + shipping;
@@ -84,28 +84,15 @@ export default function CartSummary() {
 
         </div>
 
+           <div className="flex justify-between text-text-secondary">
+              <span className="flex items-center gap-2">
+                <Truck size={16} className="text-primary" />
+                   هزینه ارسال (پست پیشتاز)
+              </span>
+              <span>{formatPrice(shipping)} تومان</span>
+            </div>
+
         
-
-        <div className="flex items-center justify-between">
-
-          <div className="flex items-center gap-2">
-
-            <Truck
-              size={18}
-              className="text-primary"
-            />
-
-            <span className="text-text-secondary">
-              هزینه ارسال
-            </span>
-
-          </div>
-
-          <span className="font-bold text-light">
-            رایگان
-          </span>
-
-        </div>
 
         <div className="h-px bg-border" />
 

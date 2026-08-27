@@ -56,11 +56,48 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!address) {
+    for (const item of cart) {
+      if (
+        !item ||
+        typeof item !== "object" ||
+        typeof item.productId !== "number" ||
+        !Number.isInteger(item.productId) ||
+        item.productId <= 0
+      ) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "اطلاعات محصول در سبد خرید نامعتبر است.",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+}
+
+    
+
+    if (
+      !address ||
+      typeof address !== "object" ||
+      typeof address.fullName !== "string" ||
+      !address.fullName.trim() ||
+      typeof address.phone !== "string" ||
+      !address.phone.trim() ||
+      typeof address.province !== "string" ||
+      !address.province.trim() ||
+      typeof address.city !== "string" ||
+      !address.city.trim() ||
+      typeof address.address !== "string" ||
+      !address.address.trim() ||
+      typeof address.postalCode !== "string" ||
+      !address.postalCode.trim()
+    ) {
       return NextResponse.json(
         {
           success: false,
-          message: "اطلاعات آدرس ارسال نشده است.",
+          message: "اطلاعات آدرس ناقص یا نامعتبر است.",
         },
         {
           status: 400,

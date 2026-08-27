@@ -19,6 +19,16 @@ export async function createOrder(
   const connection = await db.getConnection();
 
   try {
+    for (const item of cart) {
+    if (
+      typeof item.quantity !== "number" ||
+      !Number.isFinite(item.quantity) ||
+      !Number.isInteger(item.quantity) ||
+      item.quantity <= 0
+    ) {
+      throw new Error("تعداد محصول نامعتبر است");
+    }
+  }
     await connection.beginTransaction();
 
     let totalPrice = 0;
@@ -43,7 +53,9 @@ export async function createOrder(
           title,
           price,
           discount,
-          stock
+          stock,
+          colors,
+          sizes
         FROM products
         WHERE id = ?
         FOR UPDATE
@@ -57,7 +69,35 @@ export async function createOrder(
 
       const product = rows[0];
 
+      const productColors: string[] = Array.isArray(product.colors)
+      ? product.colors
+      : JSON.parse(product.colors || "[]");
+
+      const productSizes: string[] = Array.isArray(product.sizes)
+        ? product.sizes
+        : JSON.parse(product.sizes || "[]");
+
+      if (
+        item.color &&
+        !productColors.includes(item.color)
+      ) {
+        throw new Error(
+          `رنگ انتخاب‌شده برای محصول ${product.title} معتبر نیست`
+        );
+      }
+
+      if (
+        item.size &&
+        !productSizes.includes(item.size)
+      ) {
+        throw new Error(
+          `سایز انتخاب‌شده برای محصول ${product.title} معتبر نیست`
+        );
+      }
+
+
       if (product.stock < item.quantity) {
+        
         throw new Error(
           `موجودی محصول ${product.title} کافی نیست`
         );

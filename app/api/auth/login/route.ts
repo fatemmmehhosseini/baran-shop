@@ -3,12 +3,23 @@ import { comparePassword } from "@/lib/password";
 import { findUserByPhone } from "@/services/user.service";
 import { generateToken } from "@/lib/jwt";
 import { cookies } from "next/headers";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    const clientIp = request.headers.get("x-forwarded-for") || "unknown-ip";
+    const limit = checkRateLimit(`login_${clientIp}`);
+
+    if (!limit.success) {
+      return NextResponse.json(
+        { success: false, message: `تعداد تلاش‌ها بیش از حد مجاز است. لطفاً ${limit.retryAfter} ثانیه دیگر تلاش کنید.` },
+        { status: 429 }
+      );
+    }
 
     const { phone, password } = body;
 
@@ -26,34 +37,17 @@ export async function POST(request: Request) {
 
     const user = await findUserByPhone(phone);
 
-    if (!user) {
+     const isPasswordCorrect = user ? await comparePassword(password, user.password) : false;
+
+    if (!user || !isPasswordCorrect) {
+     
       return NextResponse.json(
-        {
-          success: false,
-          message: "کاربری با این شماره پیدا نشد.",
-        },
-        {
-          status: 404,
-        }
+        { success: false, message: "شماره موبایل یا رمز عبور اشتباه است." },
+        { status: 401 }
       );
     }
 
-    const isPasswordCorrect = await comparePassword(
-      password,
-      user.password
-    );
-
-    if (!isPasswordCorrect) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "رمز عبور اشتباه است.",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
+    
 
     const token = generateToken({
     id: user.id,

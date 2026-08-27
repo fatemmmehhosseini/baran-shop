@@ -1,6 +1,6 @@
-
-
 import mysql from "mysql2/promise";
+import fs from "fs";
+import path from "path";
 
 declare global {
   var mysqlPool: mysql.Pool | undefined;
@@ -14,9 +14,20 @@ const pool =
     user: process.env.DB_USER!,
     password: process.env.DB_PASSWORD!,
     database: process.env.DB_NAME!,
+
+    ssl: {
+      ca: fs.readFileSync(
+        path.join(process.cwd(), "certs", "isrgrootx1.pem")
+      ),
+    },
+
     waitForConnections: true,
-    connectionLimit: 10,
+
+    connectionLimit: process.env.NODE_ENV === "production" ? 2 : 10,
     queueLimit: 0,
+
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
   });
 
 if (process.env.NODE_ENV !== "production") {

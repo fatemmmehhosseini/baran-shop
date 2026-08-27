@@ -3,28 +3,14 @@ import { products } from "@/data/products";
 
 async function seed() {
   try {
-    // console.log("شروع وارد کردن محصولات...");
+    // console.log("شروع وارد کردن محصولات به دیتابیس...");
 
     for (const product of products) {
       await db.query(
-        `
-        INSERT INTO products (
-          product_code,
-          title,
-          slug,
-          description,
-          price,
-          discount,
-          stock,
-          thumbnail,
-          sizes,
-          colors,
-          status,
-          is_best_seller,
-          category_id
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `,
+        `INSERT INTO products (
+          product_code, title, slug, description, price, discount, 
+          stock, thumbnail, sizes, colors, status, is_best_seller, category_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           product.product_code,
           product.title,
@@ -43,10 +29,14 @@ async function seed() {
       );
     }
 
-    // console.log("✅ همه محصولات وارد شدند.");
+    // console.log("همه محصولات با موفقیت وارد شدند.");
+    
+    
+    await db.end();
     process.exit(0);
   } catch (error) {
-    console.error(error);
+    console.error(" خطا در وارد کردن محصولات:", error);
+    await db.end();
     process.exit(1);
   }
 }
