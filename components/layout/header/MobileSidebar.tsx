@@ -46,13 +46,13 @@ export default function MobileSidebar({
       {/* Sidebar */}
       <aside
         className={`fixed right-0 top-0 z-60
-        h-screen w-2/3 max-w-100
+        flex h-dvh w-2/3 max-w-100 flex-col
         bg-white shadow-2xl
         transition-transform duration-300 ease-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border py-5 pr-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-border py-5 pr-4">
           <Image
             src="/logo/logo.svg"
             alt="Baran"
@@ -70,7 +70,7 @@ export default function MobileSidebar({
         </div>
 
         
-        <nav className="px-4 py-6">
+        <nav className="flex-1 overflow-y-auto px-4 py-6">
           <ul className="space-y-1">
             {links.map((item) => {
               const active = 
@@ -99,7 +99,7 @@ export default function MobileSidebar({
         </nav>
 
         {/* Bottom Auth Section */}
-        <div className="absolute bottom-5 left-5 right-5 space-y-3">
+        <div className="shrink-0 space-y-3 px-5 pb-5">
           {isAuthenticated && user ? (
             <>
               {/* User Info Card */}
@@ -125,6 +125,7 @@ export default function MobileSidebar({
 
               {/* Logout Button */}
               <button
+                type="button"
                 onClick={onLogout}
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-50 text-red-600 font-medium transition hover:bg-red-100"
               >

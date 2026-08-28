@@ -39,7 +39,7 @@ export default function CartItem({ item }: Props) {
     <FadeIn>
       <div className="rounded-3xl border border-border bg-white p-5 shadow-sm transition hover:shadow-md">
 
-        <div className="flex gap-5">
+        <div className="flex min-w-0 gap-4 sm:gap-5">
 
           <Link
             href={`/products/${item.category_slug}/${item.slug}`}
@@ -57,15 +57,15 @@ export default function CartItem({ item }: Props) {
 
           </Link>
 
-          <div className="flex flex-1 flex-col">
+          <div className="min-w-0 flex-1">
 
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-4">
 
-              <div>
+              <div className="min-w-0">
 
                 <Link
                   href={`/products/${item.category_slug}/${item.slug}`}
-                  className="text-lg font-bold hover:text-primary"
+                  className="block text-lg font-bold hover:text-primary"
                 >
                   {item.title}
                 </Link>
@@ -114,7 +114,7 @@ export default function CartItem({ item }: Props) {
 
             </div>
 
-            <div className="mt-auto flex items-end justify-between">
+            <div className="mt-4 flex min-w-0 flex-wrap items-end justify-between gap-3">
 
               <div>
 

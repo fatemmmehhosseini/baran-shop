@@ -24,7 +24,7 @@ export default async function NewArrivalsSection() {
         
           <Link
             href="/products?sort=newest"
-            className="hidden shrink-0 text-sm font-medium text-primary hover:underline sm:block"
+            className="shrink-0 text-sm font-medium text-primary hover:underline sm:block"
           >
             مشاهده همه
           </Link>
